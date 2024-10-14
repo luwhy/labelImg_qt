@@ -53,6 +53,7 @@ LabelDialog::LabelDialog(QDialog* parent) :
     for (const auto& label : _labelList)
     {
         QStandardItem* itemModel = new QStandardItem(label);
+        itemModel->setEditable(false);
         this->_listModel->appendRow(itemModel);
     }
     this->listView->setModel(this->_listModel);
@@ -62,8 +63,7 @@ LabelDialog::LabelDialog(QDialog* parent) :
     this->_listModel->item(this->_currentItemIndex, 0)->setBackground(QBrush(Qt::red));
     connect(this->listView, &QListView::clicked, this, [=](const QModelIndex& index) {
         this->_currentItemIndex = index.row();
-        qDebug() << this->_currentItemIndex;
-        this->_currentLabel = this->_listModel->data(index).toString();
+        this->_currentLabel     = this->_listModel->data(index).toString();
     });
 }
 
@@ -113,4 +113,17 @@ void LabelDialog::defaultLabel()
 void LabelDialog::addLabel()
 {
     DEBUG_FUNCTION;
+    if (this->edit->text().isEmpty())
+    {
+        return;
+    }
+    QString labelName = this->edit->text();
+    if (this->_labelList.contains(labelName))
+    {
+        return;
+    }
+    this->_labelList.append(labelName);
+    QStandardItem* item = new QStandardItem(labelName);
+    this->_listModel->appendRow(item);
+    this->edit->clear();
 }

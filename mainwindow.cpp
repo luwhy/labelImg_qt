@@ -1,5 +1,7 @@
 ﻿#include "mainwindow.h"
 
+#include "commenFunction.h"
+
 #include <QFileDialog>
 #include <QImageReader>
 MainWindow::MainWindow(QWidget* parent) :
@@ -18,7 +20,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
     _saveAsAction(new QAction(QIcon(":/images/img/save.svg"), tr("save"))),
     _createAction(new QAction(QIcon(":/images/img/rect.png"), tr("create rect"))),
-    _createRotateAction(new QAction(QIcon(":/images /img/rectRo.png"), tr("create rotate rect"))),
+    _createRotateAction(new QAction(QIcon(":/images/img/rectRo.png"), tr("create rotate rect"))),
 
     _labelListContainerWidget(new QWidget),
     _labelListLayout(new QVBoxLayout),
@@ -128,6 +130,9 @@ MainWindow::MainWindow(QWidget* parent) :
         std::shared_ptr<QImage> imgPtr = std::make_shared<QImage>(img);
         this->_canvas->setImage(imgPtr);
     });
+    connect(this->_labelDialog, &LabelDialog::setCurrentLabel, this, &MainWindow::getCurrentLabelList);
+    this->_labelList    = {"dog", "person", "car", "tv", "chicken", "cavity", "hamburger", "ball"};
+    this->_defaultLabel = this->_labelList[0];
 }
 
 MainWindow::~MainWindow()
@@ -211,4 +216,14 @@ void MainWindow::getCurrentDirImage(const QString& currentDir)
         std::shared_ptr<QImage> imgPtr = std::make_shared<QImage>(image);
         this->_canvas->setImage(imgPtr);
     }
+}
+
+void MainWindow::getCurrentLabelList(const QString& defaultLabel, const QStringList& labelList)
+{
+    DEBUG_FUNCTION;
+
+    this->_defaultLabel = defaultLabel;
+    this->_labelList    = labelList;
+    qDebug() << this->_defaultLabel;
+    qDebug() << this->_labelList;
 }

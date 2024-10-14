@@ -50,7 +50,7 @@ private:
     int     _originItemIndex;
     QString _currentLabel;
 signals:
-    void setCurrentLabel(QString defaultLabel, QStringList labelList);
+    void setCurrentLabel(const QString& defaultLabel, const QStringList& labelList);
 };
 
 #endif // LABELDIALOG_H

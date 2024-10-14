@@ -105,9 +105,20 @@ private:
     QString     _lastOpenDir;
     QStringList _currentPathList;
 
+    QString     _defaultLabel;
+    QStringList _labelList;
+
 private:
+    /*
+     *@brief:打开文件夹对话框
+     **/
     void openDirDialog(bool checked);
 
+    /*
+     *@brief:获取当前目录下图片文件
+     **/
     void getCurrentDirImage(const QString& currentDir);
+
+    void getCurrentLabelList(const QString& defaultLabel, const QStringList& labelList);
 };
 #endif // MAINWINDOW_H
